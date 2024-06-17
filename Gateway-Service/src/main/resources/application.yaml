@@ -1,0 +1,50 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: Gateway Service
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+        - id: INVENTORY-MICROSERVICE
+          uri: lb://INVENTORY-MICROSERVICE
+          predicates:
+            - Path=/inventory/**, /inventory/update**
+        - id: ORDER-MICROSERVICE
+          uri: lb://ORDER-MICROSERVICE
+          predicates:
+            - Path=/orders/**,/orders/status**
+        - id: SUPPLIER-MICROSERVICE
+          uri: lb://SUPPLIER-MICROSERVICE
+          predicates:
+            - Path=/suppliers/**, /suppliers/get/**,/suppliers/delete/**
+        - id: STOCK-REPLENISHMENT-SERVICE
+          uri: lb://STOCK-REPLENISHMENT-SERVICE
+          predicates:
+            - Path=/replenishments/**, 
+        - id: DASHBOARD-SERVICE
+          uri: lb://DASHBOARD-SERVICE
+          predicates:
+            - Path=/dashboard/**
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:
+          '[/**]': 
+            allowedOrigins: "*"  
+            allowedMethods: "*"  
+            allowedHeaders: "*"  
+       
+          
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8006/eureka/

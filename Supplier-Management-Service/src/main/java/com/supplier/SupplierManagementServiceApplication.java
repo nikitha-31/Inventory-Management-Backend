@@ -1,0 +1,13 @@
+package com.supplier;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SupplierManagementServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SupplierManagementServiceApplication.class, args);
+	}
+
+}
